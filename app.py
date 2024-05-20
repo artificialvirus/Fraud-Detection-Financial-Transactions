@@ -4,17 +4,25 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+from tensorflow.keras.models import load_model
 
-# Load the trained model
-model = joblib.load("best_model.pkl")
+# Load the trained models
+xgb_model = joblib.load("best_xgb_model.pkl")
+dl_model = load_model("best_dl_model.h5")
 
 app = Flask(__name__)
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/predict_xgb', methods=['POST'])
+def predict_xgb():
     data = request.get_json(force=True)
-    prediction = model.predict(np.array(data['features']).reshape(1, -1))
+    prediction = xgb_model.predict(np.array(data['features']).reshape(1, -1))
     return jsonify({'prediction': int(prediction[0])})
 
-if __name__ == "main":
+@app.route('/predict_dl', methods=['POST'])
+def predict_dl():
+    data = request.get_json(force=True)
+    prediction = dl_model.predict(np.array(data['features']).reshape(1, -1))
+    return jsonify({'prediction': int(prediction[0])})
+
+if __name__ == "__main__":
     app.run(debug=True)

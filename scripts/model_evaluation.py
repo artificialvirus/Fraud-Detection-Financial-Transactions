@@ -6,7 +6,11 @@ import shap
 import matplotlib.pyplot as plt
 
 def evaluate_model(model, X_test, y_test, model_type='xgb'):
-    predictions = model.predict(X_test)
+    if model_type == 'dl':
+        predictions = (model.predict(X_test) > 0.5).astype(int)
+    else:
+        predictions = model.predict(X_test)
+    
     roc_auc = roc_auc_score(y_test, predictions)
 
     print(f"{model_type.upper()} Classification Report")
@@ -18,8 +22,12 @@ def evaluate_model(model, X_test, y_test, model_type='xgb'):
     return roc_auc
 
 def plot_shap_summary(model, X_test, model_type='xgb'):
-    explainer = shap.Explainer(model)
-    shap_values = explainer.shap_values(X_test)
+    if model_type == 'dl':
+        explainer = shap.Explainer(model, shap.maskers.Independent(X_test))
+    else:
+        explainer = shap.Explainer(model)
+    
+    shap_values = explainer(X_test)
 
     # Plot SHAP summary
     shap.summary_plot(shap_values, X_test)

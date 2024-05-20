@@ -8,6 +8,7 @@ import mlflow.keras
 from scripts.data_preprocessing import load_data, preprocess_data
 from scripts.model_training import train_xgboost, train_dl
 from scripts.model_evaluation import evaluate_model, plot_shap_summary, plot_training_history
+import joblib
 
 # Load and preprocess the data
 data = load_data("data/creditcard.csv")
@@ -21,12 +22,18 @@ xgb_roc_auc = evaluate_model(best_xgb_model, X_test, y_test, model_type='xgb')
 plot_shap_summary(best_xgb_model, X_test, model_type='xgb')
 
 # Train Deep Learning model
-best_dl_model, best_dl_hp = train_dl(X_train_res, y_train_res)
+best_dl_model, best_dl_hp, history = train_dl(X_train_res, y_train_res)
 
 # Evaluate Deep Learning model
 dl_roc_auc = evaluate_model(best_dl_model, X_test, y_test, model_type='dl')
 plot_shap_summary(best_dl_model, X_test, model_type='dl')
-plot_training_history(best_dl_model.history)
+plot_training_history(history)
+
+# Save XGBoost model
+joblib.dump(best_xgb_model, 'best_xgb_model.pkl')
+
+# Save Deep Learning model
+best_dl_model.save('best_dl_model.h5')
 
 # Log XGBoost model with MLflow
 with mlflow.start_run(run_name="XGBoost Hyperparameter Tuning"):

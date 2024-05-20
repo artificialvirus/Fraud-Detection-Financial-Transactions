@@ -7,6 +7,7 @@ from sklearn.model_selection import GridSearchCV
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 import keras_tuner as kt
+import joblib
 
 def train_xgboost(X_train_res, y_train_res):
     # Define the parameter grid
@@ -25,11 +26,14 @@ def train_xgboost(X_train_res, y_train_res):
     best_params = grid_search.best_params_
     best_xgb_model = grid_search.best_estimator_
 
+    # Save the model weights
+    joblib.dump(best_xgb_model, 'best_xgb_model.pkl')
+
     return best_xgb_model, best_params
 
-def build_dl_model(hp):
+def build_dl_model(hp, input_shape):
     model = Sequential()
-    model.add(Dense(units=hp.Int('units_1', min_value=32, max_value=128, step=32), activation='relu', input_dim=X_train_res.shape[1]))
+    model.add(Dense(units=hp.Int('units_1', min_value=32, max_value=128, step=32), activation='relu', input_dim=input_shape))
     model.add(Dropout(rate=hp.Float('dropout_1', min_value=0.0, max_value=0.5, step=0.1)))
     model.add(Dense(units=hp.Int('units_2', min_value=32, max_value=128, step=32), activation='relu'))
     model.add(Dropout(rate=hp.Float('dropout_2', min_value=0.0, max_value=0.5, step=0.1)))
@@ -38,14 +42,18 @@ def build_dl_model(hp):
     return model
 
 def train_dl(X_train_res, y_train_res):
+    input_shape = X_train_res.shape[1]
     # Initialize Keras Tuner
-    tuner = kt.RandomSearch(build_dl_model, objective='val_accuracy', max_trials=5, executions_per_trial=3, directory='my_dir', project_name='credit_fraud')
+    tuner = kt.RandomSearch(lambda hp: build_dl_model(hp, input_shape), objective='val_accuracy', max_trials=5, executions_per_trial=3, directory='my_dir', project_name='credit_fraud')
 
     # Search for the best hyperparameters
     tuner.search(X_train_res, y_train_res, epochs=10, validation_split=0.2, verbose=1)
     best_hp = tuner.get_best_hyperparameters()[0]
     best_dl_model = tuner.hypermodel.build(best_hp)
 
-    best_dl_model.fit(X_train_res, y_train_res, epochs=20, batch_size=64, validation_split=0.2, verbose=1)
+    history = best_dl_model.fit(X_train_res, y_train_res, epochs=20, batch_size=64, validation_split=0.2, verbose=1)
 
-    return best_dl_model, best_hp
+    # Save the model weights
+    best_dl_model.save('best_dl_model.h5')
+
+    return best_dl_model, best_hp, history
