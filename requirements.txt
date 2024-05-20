@@ -1,0 +1,13 @@
+pandas
+matplotlib
+seaborn
+scikit-learn
+tensorflow
+keras-tuner
+xgboost
+imblearn
+shap
+mlflow
+joblib
+flask
+flask-cors
