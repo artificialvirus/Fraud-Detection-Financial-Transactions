@@ -1,8 +1,16 @@
 # Use an official Python runtime as a parent image
-FROM python:3.8-slim
+FROM python:3.12-slim
 
 # Set the working directory in the container
 WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    libhdf5-dev \
+    python3-dev \
+    python3-pip
 
 # Copy the current directory contents into the container at /app
 COPY . /app

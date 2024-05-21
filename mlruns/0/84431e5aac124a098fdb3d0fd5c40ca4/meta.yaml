@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/alperonder/Desktop/Dev/Fraud-Detection-Financial-Transactions/mlruns/0/84431e5aac124a098fdb3d0fd5c40ca4/artifacts
+end_time: 1716253775353
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 84431e5aac124a098fdb3d0fd5c40ca4
+run_name: XGBoost Hyperparameter Tuning
+run_uuid: 84431e5aac124a098fdb3d0fd5c40ca4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1716253773572
+status: 3
+tags: []
+user_id: alperonder

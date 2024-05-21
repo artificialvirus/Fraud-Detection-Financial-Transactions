@@ -23,7 +23,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.12
 
     - name: Install dependencies
       run: |
@@ -71,10 +71,3 @@ jobs:
         docker build -t fraud_detection_api .
         docker tag fraud_detection_api:latest ${{ secrets.DOCKER_USERNAME }}/fraud_detection_api:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/fraud_detection_api:latest
-
-    - name: Deploy to Heroku
-      uses: akhileshns/heroku-deploy@v3.12.12
-      with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: "your-heroku-app-name"
-        heroku_email: "your-heroku-email"

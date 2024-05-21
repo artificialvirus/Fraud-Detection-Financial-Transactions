@@ -33,7 +33,7 @@ plot_training_history(history)
 joblib.dump(best_xgb_model, 'best_xgb_model.pkl')
 
 # Save Deep Learning model
-best_dl_model.save('best_dl_model.h5')
+best_dl_model.save('best_dl_model.keras')
 
 # Log XGBoost model with MLflow
 with mlflow.start_run(run_name="XGBoost Hyperparameter Tuning"):

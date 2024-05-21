@@ -8,7 +8,7 @@ from tensorflow.keras.models import load_model
 
 # Load the trained models
 xgb_model = joblib.load("best_xgb_model.pkl")
-dl_model = load_model("best_dl_model.h5")
+dl_model = load_model("best_dl_model.keras")  # Change to load the model with .keras extension
 
 app = Flask(__name__)
 

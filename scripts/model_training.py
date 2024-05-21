@@ -4,7 +4,7 @@
 # It also saves the model weights after every epoch.
 import xgboost as xgb
 from sklearn.model_selection import GridSearchCV
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, save_model
 from tensorflow.keras.layers import Dense, Dropout
 import keras_tuner as kt
 import joblib
@@ -53,7 +53,7 @@ def train_dl(X_train_res, y_train_res):
 
     history = best_dl_model.fit(X_train_res, y_train_res, epochs=20, batch_size=64, validation_split=0.2, verbose=1)
 
-    # Save the model weights
-    best_dl_model.save('best_dl_model.h5')
+    # Save the entire model with a .keras extension
+    best_dl_model.save('best_dl_model.keras')
 
     return best_dl_model, best_hp, history

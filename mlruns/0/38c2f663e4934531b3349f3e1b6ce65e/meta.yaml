@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/alperonder/Desktop/Dev/Fraud-Detection-Financial-Transactions/mlruns/0/38c2f663e4934531b3349f3e1b6ce65e/artifacts
+end_time: 1716283683932
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 38c2f663e4934531b3349f3e1b6ce65e
+run_name: Deep Learning Hyperparameter Tuning
+run_uuid: 38c2f663e4934531b3349f3e1b6ce65e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1716283680547
+status: 3
+tags: []
+user_id: alperonder
