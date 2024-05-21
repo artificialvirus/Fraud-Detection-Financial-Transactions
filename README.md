@@ -59,7 +59,7 @@ The trained models are deployed using a Flask web application, with Docker used 
 The deployment code is located in `/app.py`.
 
 ## Results
-The results of the model evaluation, including performance metrics and SHAP analysis, are detailed in the [paper](#paper).
+The results of the model evaluation, including performance metrics and SHAP analysis, are detailed in the [paper](paper.pdf).
 
 ## Paper
 You can read the full paper, "Fraud Detection in Financial Transactions Using Machine Learning: A Comprehensive MLOps Approach," [here](paper.pdf).
