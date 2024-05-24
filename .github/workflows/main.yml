@@ -30,6 +30,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Verify CSV file
+      run: |
+        ls -l data
+        head -n 5 data/creditcard.csv
+
     - name: Retrain model
       run: |
         python train.py

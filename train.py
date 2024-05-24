@@ -9,9 +9,20 @@ from scripts.data_preprocessing import load_data, preprocess_data
 from scripts.model_training import train_xgboost, train_dl
 from scripts.model_evaluation import evaluate_model, plot_shap_summary, plot_training_history
 import joblib
+import os
+
+# Check if file exists
+file_path = "data/creditcard.csv"
+if not os.path.exists(file_path):
+    raise FileNotFoundError(f"File not found: {file_path}")
 
 # Load and preprocess the data
-data = load_data("data/creditcard.csv")
+data = load_data(file_path)
+
+# Print data columns and sample for debugging
+print("Data Columns:", data.columns)
+print("Data Sample:\n", data.head())
+
 X_train_res, X_test, y_train_res, y_test = preprocess_data(data)
 
 # Train XGBoost model
