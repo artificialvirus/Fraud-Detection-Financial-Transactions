@@ -5,7 +5,6 @@ __pycache__/
 
 # Data files
 data/
-*.csv
 *.json
 *.sqlite
 *.sqlite3
