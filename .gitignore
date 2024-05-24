@@ -4,23 +4,23 @@ __pycache__/
 *$py.class
 
 # Data files
-data/
-*.json
-*.sqlite
-*.sqlite3
-*.xls
-*.xlsx
-*.db
-*.h5
-*.pkl
-*.pickle
-*.pklz
-*.pkl.gz
-*.pkl.bz2
-*.pkl.xz
-*.pkl.zst
-# C extensions
-*.so
+# data/
+# *.json
+# *.sqlite
+# *.sqlite3
+# *.xls
+# *.xlsx
+# *.db
+# *.h5
+# *.pkl
+# *.pickle
+# *.pklz
+# *.pkl.gz
+# *.pkl.bz2
+# *.pkl.xz
+# *.pkl.zst
+# # C extensions
+# *.so
 
 # Distribution / packaging
 .Python
