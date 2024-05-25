@@ -11,6 +11,9 @@ from scripts.model_evaluation import evaluate_model, plot_shap_summary, plot_tra
 import joblib
 import os
 
+# Set a temporary artifact location
+mlflow.set_tracking_uri("file:///tmp/mlruns")
+
 # Check if file exists
 file_path = "data/creditcard.csv"
 if not os.path.exists(file_path):
