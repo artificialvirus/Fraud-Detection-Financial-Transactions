@@ -49,11 +49,23 @@ jobs:
       run: |
         python train.py
 
-    - name: Save model artifact
+    - name: Verify model files
+      run: |
+        ls -l
+        if [ ! -f best_xgb_model.pkl ]; then echo "best_xgb_model.pkl not found"; exit 1; fi
+        if [ ! -f best_dl_model.keras ]; then echo "best_dl_model.keras not found"; exit 1; fi
+
+    - name: Save XGBoost model artifact
       uses: actions/upload-artifact@v2
       with:
-        name: best_model
-        path: best_model.pkl
+        name: best_xgb_model
+        path: best_xgb_model.pkl
+
+    - name: Save Deep Learning model artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: best_dl_model
+        path: best_dl_model.keras
 
   deploy:
     needs: build
@@ -63,10 +75,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Download model artifact
+    - name: Download XGBoost model artifact
       uses: actions/download-artifact@v2
       with:
-        name: best_model
+        name: best_xgb_model
+
+    - name: Download Deep Learning model artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: best_dl_model
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1

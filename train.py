@@ -44,10 +44,14 @@ plot_shap_summary(best_dl_model, X_test, model_type='dl')
 plot_training_history(history)
 
 # Save XGBoost model
-joblib.dump(best_xgb_model, 'best_xgb_model.pkl')
+xgb_model_path = 'best_xgb_model.pkl'
+joblib.dump(best_xgb_model, xgb_model_path)
+print(f"XGBoost model saved at {xgb_model_path}")
 
 # Save Deep Learning model
-best_dl_model.save('best_dl_model.keras')
+dl_model_path = 'best_dl_model.keras'
+best_dl_model.save(dl_model_path)
+print(f"Deep Learning model saved at {dl_model_path}")
 
 # Log XGBoost model with MLflow
 with mlflow.start_run(run_name="XGBoost Hyperparameter Tuning"):
