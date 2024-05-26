@@ -93,6 +93,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t fraud_detection_api .
-        docker tag fraud_detection_api:latest ${{ secrets.DOCKER_USERNAME }}/fraud_detection_api:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/fraud_detection_api:latest
+        docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/fraud_detection_api:latest .
+        docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/fraud_detection_api:latest ${{ secrets.DOCKER_HUB_USERNAME }}/fraud_detection_api:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/fraud_detection_api:latest
