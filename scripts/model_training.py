@@ -3,8 +3,8 @@
 # It is responsible for training the model and saving the model weights.
 # It also saves the model weights after every epoch.
 import xgboost as xgb
-from sklearn.model_selection import GridSearchCV
-from tensorflow.keras.models import Sequential, save_model
+from sklearn.model_selection import GridSearchCV, cross_val_score
+from tensorflow.keras.models import Sequential, save_model, model_from_json
 from tensorflow.keras.layers import Dense, Dropout
 import keras_tuner as kt
 import joblib
@@ -25,6 +25,10 @@ def train_xgboost(X_train_res, y_train_res):
     # Best parameters and model
     best_params = grid_search.best_params_
     best_xgb_model = grid_search.best_estimator_
+
+    # Cross-validation scores
+    cv_scores = cross_val_score(best_xgb_model, X_train_res, y_train_res, cv=3, scoring='roc_auc')
+    print(f"Cross-validation scores: {cv_scores}")
 
     # Save the model weights
     joblib.dump(best_xgb_model, 'best_xgb_model.pkl')
@@ -53,7 +57,10 @@ def train_dl(X_train_res, y_train_res):
 
     history = best_dl_model.fit(X_train_res, y_train_res, epochs=20, batch_size=64, validation_split=0.2, verbose=1)
 
-    # Save the entire model with a .keras extension
-    best_dl_model.save('best_dl_model.keras')
+    # Save the model architecture and weights separately
+    model_json = best_dl_model.to_json()
+    with open('best_dl_model.json', 'w') as json_file:
+        json_file.write(model_json)
+    best_dl_model.save_weights('best_dl_model.h5')
 
     return best_dl_model, best_hp, history

@@ -4,6 +4,8 @@
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 import shap
 import matplotlib.pyplot as plt
+import json
+import os
 
 def evaluate_model(model, X_test, y_test, model_type='xgb'):
     if model_type == 'dl':
@@ -12,6 +14,11 @@ def evaluate_model(model, X_test, y_test, model_type='xgb'):
         predictions = model.predict(X_test)
     
     roc_auc = roc_auc_score(y_test, predictions)
+
+    # Log metrics to a file
+    metrics = classification_report(y_test, predictions, output_dict=True)
+    with open(f"{model_type}_classification_report.json", 'w') as f:
+        json.dump(metrics, f)
 
     print(f"{model_type.upper()} Classification Report")
     print(classification_report(y_test, predictions))
@@ -23,10 +30,10 @@ def evaluate_model(model, X_test, y_test, model_type='xgb'):
 
 def plot_shap_summary(model, X_test, model_type='xgb'):
     if model_type == 'dl':
-        explainer = shap.Explainer(model, shap.maskers.Independent(X_test))
+        explainer = shap.Explainer(model, X_test)
     else:
         explainer = shap.Explainer(model)
-    
+
     shap_values = explainer(X_test)
 
     # Plot SHAP summary
@@ -51,4 +58,5 @@ def plot_training_history(history):
     plt.legend()
 
     plt.tight_layout()
+    plt.savefig('training_history.png')
     plt.show()

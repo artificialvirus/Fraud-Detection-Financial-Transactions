@@ -11,9 +11,20 @@ def load_data(filepath):
     return data
 
 def preprocess_data(data):
+    # Ensure correct data types
+    data['Class'] = data['Class'].astype(int)
+
+    # Check for missing values and handle them
+    if data.isnull().sum().any():
+        data = data.dropna()
+
     # Separate features and target
     X = data.drop('Class', axis=1)
     y = data['Class']
+
+    # Check for outliers or anomalies (optional step)
+    # Example: Removing extreme outliers
+    X = X[(X < X.quantile(0.99)) & (X > X.quantile(0.01))]
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
