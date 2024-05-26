@@ -24,8 +24,6 @@ def preprocess_data(data):
     y = data['Class']
 
     # Check for outliers or anomalies (optional step)
-    # Example: Removing extreme outliers
-    # Note: This step must be done carefully as it can reintroduce NaNs if not handled properly.
     quantiles = X.quantile([0.01, 0.99])
     X = X.apply(lambda x: x[(x > quantiles.loc[0.01, x.name]) & (x < quantiles.loc[0.99, x.name])])
 

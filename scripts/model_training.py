@@ -57,10 +57,7 @@ def train_dl(X_train_res, y_train_res):
 
     history = best_dl_model.fit(X_train_res, y_train_res, epochs=20, batch_size=64, validation_split=0.2, verbose=1)
 
-    # Save the model architecture and weights separately
-    model_json = best_dl_model.to_json()
-    with open('best_dl_model.json', 'w') as json_file:
-        json_file.write(model_json)
-    best_dl_model.save_weights('best_dl_model.h5')
+    # Save the model using the .keras extension
+    best_dl_model.save('best_dl_model.keras')
 
     return best_dl_model, best_hp, history
