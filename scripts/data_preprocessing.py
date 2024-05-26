@@ -1,4 +1,4 @@
-# File: /data_preprocessing.py
+# File: /scripts/data_preprocessing.py
 # This file contains the data preprocessing code.
 # It is responsible for loading the dataset, checking for missing values, and visualizing the data distribution.
 import pandas as pd
@@ -24,7 +24,13 @@ def preprocess_data(data):
     y = data['Class']
 
     # Check for outliers or anomalies (optional step)
-    X = X[(X < X.quantile(0.99)) & (X > X.quantile(0.01))]
+    # Example: Removing extreme outliers
+    # Note: This step must be done carefully as it can reintroduce NaNs if not handled properly.
+    quantiles = X.quantile([0.01, 0.99])
+    X = X.apply(lambda x: x[(x > quantiles.loc[0.01, x.name]) & (x < quantiles.loc[0.99, x.name])])
+
+    # Impute missing values again if outlier removal introduced any NaNs
+    X = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
