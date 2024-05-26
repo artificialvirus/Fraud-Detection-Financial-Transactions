@@ -4,7 +4,7 @@
 # It also saves the model weights after every epoch.
 import xgboost as xgb
 from sklearn.model_selection import GridSearchCV, cross_val_score
-from tensorflow.keras.models import Sequential, save_model, model_from_json
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 import keras_tuner as kt
 import joblib

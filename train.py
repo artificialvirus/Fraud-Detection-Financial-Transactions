@@ -54,7 +54,7 @@ try:
     best_dl_model.save(dl_model_path)
     print(f"Deep Learning model saved at {dl_model_path}")
 
-    # Log XGBoostmodel with MLflow
+    # Log XGBoost model with MLflow
     with mlflow.start_run(run_name="XGBoost Hyperparameter Tuning"):
         mlflow.sklearn.log_model(best_xgb_model, "model")
         mlflow.log_params(best_xgb_params)

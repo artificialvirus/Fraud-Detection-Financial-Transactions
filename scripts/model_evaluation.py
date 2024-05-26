@@ -5,7 +5,6 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_auc_sco
 import shap
 import matplotlib.pyplot as plt
 import json
-import os
 
 def evaluate_model(model, X_test, y_test, model_type='xgb'):
     if model_type == 'dl':

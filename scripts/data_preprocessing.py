@@ -5,6 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
+from sklearn.impute import SimpleImputer
 
 def load_data(filepath):
     data = pd.read_csv(filepath)
@@ -14,16 +15,15 @@ def preprocess_data(data):
     # Ensure correct data types
     data['Class'] = data['Class'].astype(int)
 
-    # Check for missing values and handle them
-    if data.isnull().sum().any():
-        data = data.dropna()
+    # Check for missing values and handle them using SimpleImputer
+    imputer = SimpleImputer(strategy='mean')
+    data = pd.DataFrame(imputer.fit_transform(data), columns=data.columns)
 
     # Separate features and target
     X = data.drop('Class', axis=1)
     y = data['Class']
 
     # Check for outliers or anomalies (optional step)
-    # Example: Removing extreme outliers
     X = X[(X < X.quantile(0.99)) & (X > X.quantile(0.01))]
 
     # Split the data into training and testing sets
